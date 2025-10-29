@@ -15,7 +15,11 @@ This pipeline was developed for the Biochemistry Compute Cluster but can be adap
 
 ### Prepare Files
 
-**Step 1:** Copy the entire ddG pipeline directory and rename it to reflect your experiment.
+**Step 1:** Clone the ddG pipeline GitHub repo and rename it to reflect your experiment.
+```bash
+git clone https://github.com/stmiller2/membrane_ddG_scan
+mv membrane_ddG_scan/ my_experiment/
+```
 
 **Step 2:** Orient your protein in the membrane using the OPM database:  
 - [OPM](https://opm.phar.umich.edu/)  
@@ -37,6 +41,7 @@ cp -r ddG_v2 /scratch/{username}/
 **Step 5:** Run `prep_inputs.sh` to clean the PDB, generate a spanfile, and relax the protein with Rosetta:
 
 ```bash
+chmod +x prep_inputs.sh
 ./prep_inputs.sh
 ```
 - Double-check the generated spanfile (`prot_tr_A.span`) for correct transmembrane domains. Note that Rosetta numbering may differ from your original PDB.  
@@ -52,6 +57,7 @@ cp -r ddG_v2 /scratch/{username}/
 
 **Step 7:** Run `mp_cartddG_pipeline.sh` to generate directories and mutfiles, create bash scripts for `cartesian_ddg`, and submit HTCondor jobs.
 ```bash
+chmod +x mp_cartddG_pipeline.sh
 ./mp_cartddG_pipeline.sh
 ```  
 - Duration depends on protein size.  
@@ -65,6 +71,7 @@ cp -r ddG_v2 /scratch/{username}/
 
 **Step 9:** Run `parse_results.sh` to compute ΔΔG values.
 ```bash
+chmod +x parse_results.sh
 ./parse_results.sh
 ```
 - This loops through ddG output files, averages WT and MUT total energies, and computes ΔΔG.  
